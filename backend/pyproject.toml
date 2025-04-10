@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "ojosama-generator-back"
+version = "0.1.0"
+description = ""
+authors = ["shooonng <5511068t@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+mecab-python3 = "^1.0.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
