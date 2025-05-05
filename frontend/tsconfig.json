@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "es6",
+      "outDir": "./dist",
+      "moduleResolution": "node",
+      "strict": true
+    },
+    "include": ["main.ts"]
+  }

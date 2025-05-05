@@ -38,6 +38,9 @@ function converOjosama(text: String): string {
   return wordConverted;
 }
 
-const input: string = "私は猫です。あなたも猫が好きですか？";
-const result: string = converOjosama(input);
-console.log(result);
+document.getElementById("convert")?.addEventListener("click", () => {
+  const input = (document.getElementById("input") as HTMLTextAreaElement).value;
+  const result = converOjosama(input);
+  const output = document.getElementById("output");
+  if (output) output.textContent = result;
+});
