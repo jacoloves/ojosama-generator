@@ -38,9 +38,23 @@ function converOjosama(text: String): string {
   return wordConverted;
 }
 
-document.getElementById("convert")?.addEventListener("click", () => {
+document.getElementById("convert")?.addEventListener("click", async () => {
   const input = (document.getElementById("input") as HTMLTextAreaElement).value;
-  const result = converOjosama(input);
+  
+  const response = await fetch("http://localhost:8000/convert", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text: input }),
+  });
+
+  if (!response.ok) {
+    alert("変換中にエラーが発生しましたわ！");
+    return;
+  }
+
+  const data = await response.json();
   const output = document.getElementById("output");
-  if (output) output.textContent = result;
+  if (output) output.textContent = data.result;
 });
