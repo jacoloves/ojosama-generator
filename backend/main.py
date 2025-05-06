@@ -19,4 +19,5 @@ class TextRequest(BaseModel):
 @app.post("/convert")
 def convert_text(req: TextRequest):
     converted = conver_ojousama(req.text)
+    converted = converted.replace("。", "。\n")
     return {"result": converted}
