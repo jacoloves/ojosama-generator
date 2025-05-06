@@ -40,21 +40,30 @@ function converOjosama(text: String): string {
 
 document.getElementById("convert")?.addEventListener("click", async () => {
   const input = (document.getElementById("input") as HTMLTextAreaElement).value;
-  
-  const response = await fetch("http://localhost:8000/convert", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text: input }),
-  });
-
-  if (!response.ok) {
-    alert("変換中にエラーが発生しましたわ！");
-    return;
-  }
-
-  const data = await response.json();
   const output = document.getElementById("output");
-  if (output) output.textContent = data.result;
+  const converButton = document.getElementById("convert") as HTMLButtonElement;
+
+  if (output) output.textContent = "変換中ですわ〜…💫";
+  if (converButton) converButton.disabled = true;
+
+  try {
+    const response = await fetch("http://localhost:8000/convert", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: input }),
+    });
+
+    if (!response.ok) {
+      throw new Error("変換に失敗しましたわ💦");
+    }
+
+    const data = await response.json();
+    if (output) output.textContent = data.result;
+  } catch (error) {
+    if (output) output.textContent = "おや…何か問題が起きましたわ💦";
+  } finally {
+    if (converButton) converButton.disabled = false;
+  }
 });
