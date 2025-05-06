@@ -47,8 +47,30 @@ def conver_ojousama(text: str) -> str:
         surface = node.surface
         features = node.feature.split(",")
         base_form = features[6] if len(features) > 6 else surface
+        pos = features[0] # noun, verb, adjective, etc.
+        conjugation = features[5] if len(features) > 5 else "" # conjugation type
 
-        result.append(word_dict.get(base_form, surface))
+        # verb
+        if pos == "動詞" and base_form in word_dict:
+            polite_stem = word_dict[base_form]
+            if conjugation == "基本形":
+                result.append(polite_stem + "ります") # 丁寧語
+            elif conjugation == "連用タ接続":
+                result.append(polite_stem + "りました") # 過去形
+            elif conjugation == "未然形":
+                result.append(polite_stem + "りません") # 否定形
+            else:
+                result.append(polite_stem + "ります") # fallback to 丁寧語
+        # adjective
+        elif pos == "形容詞" and base_form in word_dict:
+            result.append(word_dict[base_form])
+        # noun
+        elif pos == "名詞" and base_form in word_dict:
+            result.append(word_dict[base_form])
+        # fallback
+        else:
+            result.append(surface)
+
         node = node.next
 
     return "".join(result)
